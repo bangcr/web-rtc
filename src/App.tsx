@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Socket, io } from "socket.io-client";
 import Peer from "simple-peer";
 
-const socket: Socket = io("http://222.98.191.32:5000");
+const socket: Socket = io("https://dev-socket.classup.io");
 
 function App() {
   const [me, setMe] = useState<string>("");
@@ -131,10 +130,14 @@ function App() {
             onChange={(e) => setName(e.target.value)}
             style={{ marginBottom: "20px" }}
           />
-          <button style={{ marginBottom: "2rem" }}>
+          {/* <button style={{ marginBottom: "2rem" }}>
             <button>Copy ID</button>
           </button>
-          <span>ID: {me}</span>
+          <span>ID: {me}</span> */}
+
+          <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
+            <button>Copy ID</button>
+          </CopyToClipboard>
 
           <input
             value={idToCall}
@@ -167,3 +170,25 @@ function App() {
 }
 
 export default App;
+
+const CopyToClipboard = ({ text, children }: any) => {
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert("Copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Could not copy text: ", err);
+      });
+  };
+
+  return (
+    <div
+      onClick={handleCopy}
+      style={{ display: "inline-block", cursor: "pointer" }}
+    >
+      {children}
+    </div>
+  );
+};
