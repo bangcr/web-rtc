@@ -134,6 +134,7 @@ function App() {
           <button style={{ marginBottom: "2rem" }}>
             <button>Copy ID</button>
           </button>
+          <span>ID: {me}</span>
 
           <input
             value={idToCall}
